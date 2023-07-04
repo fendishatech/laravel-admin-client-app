@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -11,7 +13,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view("users.index");
+        $users = User::all();
+        return view("users.index")->with(['users' => $users]);
     }
 
     /**
@@ -19,7 +22,23 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.new');
+    }
+
+    public function createUser(array $validatedData)
+    {
+        $user = new User();
+
+        $user->first_name = $validatedData['first_name'];
+        $user->last_name = $validatedData['last_name'];
+        $user->email = $validatedData['email'];
+        $user->phone_no = $validatedData['phone_no'];
+        $user->password = Hash::make($validatedData['password']); // Use bcrypt to hash the password
+        $user->user_role = $validatedData['user_role'];
+
+        $user->save();
+
+        return $user;
     }
 
     /**
@@ -27,7 +46,25 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required',
+            'phone_no' => 'required',
+            'password' => 'required|min:6|max:20|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/|regex:/[@$!%*?&]/',
+            'user_role' => 'required',
+        ], [
+            'password_rules' => 'The password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, and one number.',
+        ]);
+
+        if ($validatedData) {
+
+            $user = $this->createUser($validatedData);
+
+            return redirect('/users')->with('success', 'User added successfully.');
+        } else {
+            return redirect()->back()->withErrors("All fields are required")->withInput();
+        }
     }
 
     /**
