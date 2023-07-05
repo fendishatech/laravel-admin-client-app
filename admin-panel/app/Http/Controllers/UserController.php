@@ -63,7 +63,9 @@ class UserController extends Controller
 
             return redirect('/users')->with('success', 'User added successfully.');
         } else {
-            return redirect()->back()->withErrors("All fields are required")->withInput();
+            return redirect()->back()->withErrors([
+                'password_rule' => 'Password must be betwwen 6 upto 20 characters long and must contain a small letter, a capital letter and special characters (@$!%*?&)!',
+            ])->withInput();
         }
     }
 

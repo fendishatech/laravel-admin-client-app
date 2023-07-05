@@ -14,6 +14,11 @@
                     COMPANY NAME አማርኛ ፎንት
                 </p>
             </div>
+            @if ($errors->has('custom_error'))
+                <p class="py-2 text-sm text-red-400 text-center">
+                    {{ $errors->first('custom_error') }}
+                </p>
+            @endif
             <div class="px-12 pb-10">
                 {{-- Phone No --}}
                 <div class="w-full mb-2">
@@ -21,6 +26,9 @@
                         <input type="tel" name="phone_no" placeholder="Phone No"
                             class="w-full border rounded-md px-3 py-2 text-gray-700 focus:outline-yellow-700" />
                     </div>
+                    @if ($errors->has('phone_no'))
+                        <span class="text-sm text-red-400">{{ $errors->first('phone_no') }}</span>
+                    @endif
                 </div>
                 {{-- Password --}}
                 <div class="w-full mb-2">
@@ -28,6 +36,9 @@
                         <input type="password" name="password" placeholder="Password"
                             class="w-full border rounded-md px-3 py-2 text-gray-700 focus:outline-yellow-700" />
                     </div>
+                    @if ($errors->has('password'))
+                        <span class="text-sm text-red-400">{{ $errors->first('password') }}</span>
+                    @endif
                 </div>
                 <button type="submit"
                     class="zelan text-2xl font-thin w-full py-2 mt-8 rounded-full bg-green-800 text-gray-100 focus:outline-none">

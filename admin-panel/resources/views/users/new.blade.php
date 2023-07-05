@@ -80,8 +80,8 @@
                             @if ($errors->has('password'))
                                 <span class="text-sm text-red-400">{{ $errors->first('password') }}</span>
                             @endif
-                            @if ($errors->has('password'))
-                                <span class="text-sm text-red-400">{{ $errors->first('password_rules') }}</span>
+                            @if ($errors->has('password_rule'))
+                                <span class="text-sm text-red-400">{{ $errors->first('password_rule') }}</span>
                             @endif
                         </div>
                     </div>
