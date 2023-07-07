@@ -3,7 +3,7 @@
 @endsection
 
 @section('page_title')
-    Users List
+    Add New User
 @endsection
 
 @section('content')
@@ -69,7 +69,7 @@
                     </div>
                 </div>
                 {{-- Password || Userrole --}}
-                <div class="mb-4 flex items-center gap-6">
+                <div class="mb-4 flex items-start gap-6">
                     <div class="w-1/2">
                         <label class="block text-gray-700 font-bold mb-2" for="store_name">
                             Password
@@ -78,11 +78,11 @@
                             <input class="w-full px-4 py-2 pr-8 rounded shadow border border-gray-400" type="text"
                                 name="password" min="1" value="{{ old('password') }}">
                             @if ($errors->has('password'))
-                                <span class="text-sm text-red-400">{{ $errors->first('password') }}</span>
+                                <div class="text-red-400 text-sm mb-2">{{ $errors->first('password') }}</div>
                             @endif
-                            @if ($errors->has('password_rule'))
-                                <span class="text-sm text-red-400">{{ $errors->first('password_rule') }}</span>
-                            @endif
+                            <p class="mt-2 text-sm text-orange-400">Password must be betwwen 6 upto 20 characters long and
+                                must
+                                contain a small letter, a capital letter and special characters (@$!%*?&)!</p>
                         </div>
                     </div>
                     <div class="w-1/2">

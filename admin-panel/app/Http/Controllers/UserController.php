@@ -49,12 +49,10 @@ class UserController extends Controller
         $validatedData = $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required',
-            'phone_no' => 'required',
+            'email' => 'required|unique:users',
+            'phone_no' => 'required|unique:users',
             'password' => 'required|min:6|max:20|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/|regex:/[@$!%*?&]/',
             'user_role' => 'required',
-        ], [
-            'password_rules' => 'The password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, and one number.',
         ]);
 
         if ($validatedData) {
@@ -63,9 +61,7 @@ class UserController extends Controller
 
             return redirect('/users')->with('success', 'User added successfully.');
         } else {
-            return redirect()->back()->withErrors([
-                'password_rule' => 'Password must be betwwen 6 upto 20 characters long and must contain a small letter, a capital letter and special characters (@$!%*?&)!',
-            ])->withInput();
+            return redirect()->back()->withErrors("default error")->withInput();
         }
     }
 
@@ -82,7 +78,8 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user = User::find($id);
+        return view('users.edit', ['user' => $user]);
     }
 
     /**
@@ -90,7 +87,9 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::find($id);
+        $user->update($request->all());
+        return redirect('users')->with("success", "Item has been Updated");
     }
 
     /**
@@ -98,6 +97,8 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::find($id);
+        $user->delete();
+        return redirect('users')->with("success", "Item has been deleted");
     }
 }
