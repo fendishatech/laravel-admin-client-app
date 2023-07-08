@@ -16,6 +16,12 @@
                         <p>{{ Session::get('success') }}</p>
                     </div>
                 @endif
+                @if (Session::has('error'))
+                    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
+                        <p class="font-bold">Error</p>
+                        <p>{{ Session::get('error') }}</p>
+                    </div>
+                @endif
                 <div class="w-full p-6 flex justify-between items-center">
                     <h1 class="text-xl font-bold text-red-600">Clients List</h1>
                     <a class="px-6 py-2 text-xl bg-red-300 rounded-md text-white font-semibold hover:bg-red-600"
@@ -39,8 +45,8 @@
 
                                     @foreach ($clients as $client)
                                         <tr class="whitespace-nowrap">
-                                            {{-- <td class="px-6 py-4 text-sm text-gray-500">{{ $loop->iteration }}</td> --}}
-                                            <td class="px-6 py-4 text-sm text-gray-500">{{ $client->id }}</td>
+                                            <td class="px-6 py-4 text-sm text-gray-500">{{ $loop->iteration }}</td>
+                                            {{-- <td class="px-6 py-4 text-sm text-gray-500">{{ $client->id }}</td> --}}
                                             <td class="px-6 py-4">
                                                 <div class="text-sm text-gray-900">
                                                     {{ $client->first_name }}
