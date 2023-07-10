@@ -9,6 +9,11 @@ class Client extends Model
 {
     protected $table = "clients";
 
+    // UUID Primary key
+    protected $primaryKey = 'id';
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     protected $fillable = [
         'id',
         'first_name',

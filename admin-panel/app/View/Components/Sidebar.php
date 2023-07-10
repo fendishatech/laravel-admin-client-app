@@ -9,6 +9,7 @@ use Illuminate\View\Component;
 class Sidebar extends Component
 {
     public $title;
+    public $activeUrl;
 
     public function __construct($title)
     {
@@ -17,7 +18,7 @@ class Sidebar extends Component
 
     public function isActive($url)
     {
-        return request()->url() == $url;
+        return request()->is('*' . $url . '*');
     }
 
     public function render()

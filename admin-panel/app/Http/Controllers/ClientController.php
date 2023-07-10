@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ClientRequest;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -45,9 +46,9 @@ class ClientController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'phone_no' => 'required|unique:clients'
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'phone_no' => 'required|string'
         ]);
 
         if ($validatedData) {
@@ -71,25 +72,43 @@ class ClientController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(client $client)
+    public function edit(string $id)
     {
-        //
+        $client = Client::find($id);
+        return view('clients.edit', ['client' => $client]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, client $client)
+    public function update(Request $request,  string $id)
     {
-        //
+        $client = Client::find($id);
+        // $validatedData = $request->validated();
+        $validatedData = $request->validate([
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'phone_no' => 'required|string'
+        ]);
+
+        if ($validatedData) {
+
+            $client = $this->createClient($validatedData);
+
+            $client->update($request->all());
+            return redirect('/clients')->with("success", "Item has been Updated");
+        } else {
+            return redirect()->back()->withErrors("default error")->withInput();
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id)
+    public function destroy(string $id)
     {
         $client = Client::where('id', $id)->firstOrFail();
+
         if ($client) {
             $client->delete();
             return redirect('clients')->with("success", "Item has been deleted");
