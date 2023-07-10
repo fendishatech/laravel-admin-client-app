@@ -2,6 +2,7 @@
 
 return [
 
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults
@@ -58,6 +59,7 @@ return [
     | Supported: "database", "eloquent"
     |
     */
+
 
     'providers' => [
         'users' => [

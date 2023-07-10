@@ -12,7 +12,7 @@
             <a href="#" class="mr-5 hover:text-gray-900">Home</a>
             <a href="#" class="mr-5 hover:text-gray-900">About Us</a>
         </nav>
-        @if (Session::has('user') && Session::get('user')['user_role'] == 'admin')
+        @if (Session::has('member'))
             <form action="{{ url('/logout') }}" method="post">
                 @csrf
                 <input class="bg-green-600 px-6 py-2 rounded text-white font-semibold cursor-pointer" type="submit"
